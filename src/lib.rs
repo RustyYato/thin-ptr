@@ -306,6 +306,20 @@ impl<P: ErasablePtr> Thin<P> {
     }
 }
 
+impl<P: ErasablePtr + ops::Deref> ops::Deref for CopyThin<P>
+where
+    P::Target: Erasable,
+{
+    type Target = P::Target;
+
+    fn deref(&self) -> &Self::Target {
+        // SAFETY: by Erasable's safety requirements, since P: ops::Deref
+        // the pointer given by P::into_raw is safe to convert to &T::Target
+        // while P is alive
+        unsafe { &*<P::Target as Erasable>::unerase(self.raw.ptr).as_ptr() }
+    }
+}
+
 impl<P: ErasablePtr + ops::Deref> ops::Deref for Thin<P>
 where
     P::Target: Erasable,
