@@ -266,6 +266,10 @@ impl<P: ErasablePtr> CopyThin<P> {
     pub fn ptr_eq(this: &Self, other: &Self) -> bool {
         this.raw.ptr == other.raw.ptr
     }
+
+    pub fn ptr_hash<S: core::hash::Hasher>(this: &Self, state: &mut S) {
+        core::ptr::hash(this.raw.ptr.as_ptr(), state)
+    }
 }
 
 #[repr(transparent)]
@@ -311,6 +315,10 @@ impl<P: ErasablePtr> Thin<P> {
 
     pub fn ptr_eq(this: &Self, other: &Self) -> bool {
         this.raw.ptr == other.raw.ptr
+    }
+
+    pub fn ptr_hash<S: core::hash::Hasher>(this: &Self, state: &mut S) {
+        core::ptr::hash(this.raw.ptr.as_ptr(), state)
     }
 }
 
