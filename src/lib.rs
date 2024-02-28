@@ -1,6 +1,12 @@
 #![no_std]
 #![forbid(clippy::undocumented_unsafe_blocks, clippy::missing_safety_doc)]
 
+#[cfg(feature = "alloc")]
+extern crate alloc;
+
+#[cfg(feature = "std")]
+extern crate std;
+
 use core::{marker::PhantomData, ops, ptr::NonNull};
 
 /// # Safety
