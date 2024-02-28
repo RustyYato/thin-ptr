@@ -345,3 +345,79 @@ where
         unsafe { &mut *<P::Target as Erasable>::unerase(self.raw.ptr).as_ptr() }
     }
 }
+
+impl<P: ErasablePtr + ops::Deref> PartialEq for CopyThin<P>
+where
+    P::Target: Erasable + PartialEq,
+{
+    fn eq(&self, other: &Self) -> bool {
+        **self == **other
+    }
+}
+
+impl<P: ErasablePtr + ops::Deref> Eq for CopyThin<P> where P::Target: Erasable + Eq {}
+
+impl<P: ErasablePtr + ops::Deref> PartialOrd for CopyThin<P>
+where
+    P::Target: Erasable + PartialOrd,
+{
+    fn partial_cmp(&self, other: &Self) -> Option<core::cmp::Ordering> {
+        (**self).partial_cmp(other)
+    }
+}
+
+impl<P: ErasablePtr + ops::Deref> Ord for CopyThin<P>
+where
+    P::Target: Erasable + Ord,
+{
+    fn cmp(&self, other: &Self) -> core::cmp::Ordering {
+        (**self).cmp(other)
+    }
+}
+
+impl<P: ErasablePtr + ops::Deref> core::hash::Hash for CopyThin<P>
+where
+    P::Target: Erasable + core::hash::Hash,
+{
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
+        (**self).hash(state)
+    }
+}
+
+impl<P: ErasablePtr + ops::Deref> PartialEq for Thin<P>
+where
+    P::Target: Erasable + PartialEq,
+{
+    fn eq(&self, other: &Self) -> bool {
+        **self == **other
+    }
+}
+
+impl<P: ErasablePtr + ops::Deref> Eq for Thin<P> where P::Target: Erasable + Eq {}
+
+impl<P: ErasablePtr + ops::Deref> PartialOrd for Thin<P>
+where
+    P::Target: Erasable + PartialOrd,
+{
+    fn partial_cmp(&self, other: &Self) -> Option<core::cmp::Ordering> {
+        (**self).partial_cmp(other)
+    }
+}
+
+impl<P: ErasablePtr + ops::Deref> Ord for Thin<P>
+where
+    P::Target: Erasable + Ord,
+{
+    fn cmp(&self, other: &Self) -> core::cmp::Ordering {
+        (**self).cmp(other)
+    }
+}
+
+impl<P: ErasablePtr + ops::Deref> core::hash::Hash for Thin<P>
+where
+    P::Target: Erasable + core::hash::Hash,
+{
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
+        (**self).hash(state)
+    }
+}
