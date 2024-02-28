@@ -9,6 +9,9 @@ extern crate std;
 
 use core::{marker::PhantomData, ops, ptr::NonNull};
 
+#[cfg(feature = "alloc")]
+mod ext_alloc;
+
 /// # Safety
 ///
 /// If Self: [`ops::Deref`], then [`ErasablePtr::into_raw`] must point to the value
@@ -54,6 +57,8 @@ pub unsafe trait CloneFromRaw: Clone + ErasablePtr {
 /// you must not write to the value behind the ptr in unerase
 ///
 /// you may only read from the ptr using core::ptr::read
+///
+/// Erasable::unerase should not unwind
 pub unsafe trait Erasable {
     /// # Safety
     ///
