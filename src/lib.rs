@@ -262,6 +262,10 @@ impl<P: ErasablePtr> CopyThin<P> {
         // so every value of `CopyThin` owns a value of `P`, even if copies are made
         unsafe { self.raw.into_inner() }
     }
+
+    pub fn ptr_eq(this: &Self, other: &Self) -> bool {
+        this.raw.ptr == other.raw.ptr
+    }
 }
 
 #[repr(transparent)]
@@ -303,6 +307,10 @@ impl<P: ErasablePtr> Thin<P> {
         // SAFETY: we don't run Thin<P>'s destructor and take ownership of the
         // Thin<P>, so we have ownership over the P inside as well
         unsafe { raw.into_inner() }
+    }
+
+    pub fn ptr_eq(this: &Self, other: &Self) -> bool {
+        this.raw.ptr == other.raw.ptr
     }
 }
 
